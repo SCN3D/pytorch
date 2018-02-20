@@ -36,7 +36,7 @@ all_categories.append(category)
 n_categories = 2
 
 target = genfromtxt('/home/dlg/JL/siteng/data/train/part_0.csv',dtype=str, delimiter=',',usecols=(1))
-data = genfromtxt('C:/Users/Cai/Desktop/pytorch/part_0.csv', dtype=str,delimiter=',',usecols=(0))
+data = genfromtxt('/home/dlg/JL/siteng/data/train/part_0.csv', dtype=str,delimiter=',',usecols=(2))
 
 
 ##################################

@@ -11,10 +11,6 @@ import string
 import torch
 
 
-def findFiles(path): return glob.glob(path)
-
-print(findFiles('/home/dlg/JL/siteng/data/train/part_0.csv'))
-
 all_letters = 'ARNDCEQGHILKMFPSTWYV'
 n_letters = len(all_letters)
 
@@ -35,8 +31,35 @@ category =  '2'
 all_categories.append(category)
 n_categories = 2
 
-target = genfromtxt('/home/dlg/JL/siteng/data/train/part_0.csv',dtype=str, delimiter=',',usecols=(1))
-data = genfromtxt('/home/dlg/JL/siteng/data/train/part_0.csv', dtype=str,delimiter=',',usecols=(2))
+target = genfromtxt('/home/dlg/JL/siteng/data/train/part_0.csv',dtype=str, delimiter=',',usecols=(1)) # target
+data = genfromtxt('/home/dlg/JL/siteng/data/train/part_0.csv', dtype=str,delimiter=',',usecols=(2))	#sequences
+#############  input format
+#input sequence:
+#	MKASMFLALAGLVLLFVVGYASESEEKEFPRELLSKIFAVDDFKGEERGCKGFGDSCTPGKNECCPNYACSSKHKWCKVN                                                                                                                                                             LGK
+#final input format(one hot):
+#(0 ,.,.) =
+#   0   0   0  ...    0   0   0
+#
+#(1 ,.,.) =
+#   0   0   0  ...    0   0   0
+#
+#(2 ,.,.) =
+#   1   0   0  ...    0   0   0
+#...
+#
+#(80,.,.) =
+#   0   0   0  ...    0   0   0
+#
+#(81,.,.) =
+#   0   0   0  ...    0   0   0
+#
+#(82,.,.) =
+#  0   0   0  ...    0   0   0
+#[torch.FloatTensor of size 83x1x20]
+#83 is the size of sequence
+#20 is size of amino acid constant to 20 
+#
+##############
 
 
 ##################################
@@ -100,7 +123,6 @@ def categoryFromOutput(output):
 
 ######################################################################
 
-randomChoice(all_categories)
 criterion = nn.NLLLoss()
 
 learning_rate = 0.005 # If you set this too high, it might explode. If too low, it might not learn
@@ -154,10 +176,10 @@ for iter in range(1, n_iters + 1):
     randomSampleIndex = np.random.choice(indexRange)
     category = target[randomSampleIndex]
     line = data[randomSampleIndex]
-	print(line)
+    print(line)
     category_tensor = Variable(torch.LongTensor([all_categories.index(category)]))
     line_tensor = Variable(lineToTensor(line))
-	print(lineToTensor(line))
+    print(lineToTensor(line))
 
     ########
 

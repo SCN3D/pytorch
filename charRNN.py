@@ -129,8 +129,8 @@ def train(category_tensor, line_tensor):
 
 
 
-n_iters = 100000
-print_every = 5000
+n_iters = 100
+print_every = 50
 plot_every = 1000
 
 
@@ -154,8 +154,10 @@ for iter in range(1, n_iters + 1):
     randomSampleIndex = np.random.choice(indexRange)
     category = target[randomSampleIndex]
     line = data[randomSampleIndex]
+	print(line)
     category_tensor = Variable(torch.LongTensor([all_categories.index(category)]))
     line_tensor = Variable(lineToTensor(line))
+	print(lineToTensor(line))
 
     ########
 
@@ -166,8 +168,8 @@ for iter in range(1, n_iters + 1):
     # Print iter number, loss, name and guess
     if iter % print_every == 0:
         guess, guess_i = categoryFromOutput(output)
-        correct = '*' if guess == category else '# (%s)' % category
-        print('%d %d%% (%s) %.4f %s / %s %s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
+        correct = 'yes' if guess == category else 'no (%s)' % category
+        print('%d %d%% (%s) loss:%.4f %s / guess%s correct%s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
 
     # Add current loss avg to list of losses
     if iter % plot_every == 0:
